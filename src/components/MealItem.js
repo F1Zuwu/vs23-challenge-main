@@ -5,7 +5,7 @@ const MealItem = (props) => {
     const { addItem } = useCart();
 
     const addToCartHandler = () => {
-        addItem(props.meal.name);
+        addItem(props.meal);
         console.log("add to cart")
     };
     const format = (num) => {
