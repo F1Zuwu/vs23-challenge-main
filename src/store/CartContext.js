@@ -1,48 +1,27 @@
-import React, { useState, useContext } from "react";
-
-const CartContext = React.createContext({
+import { createContext, useReducer, useEffect } from "react";
+import CartReducer from "./CartReducer";
+const CartContext = createContext({
+    addItem: () => { },
+    resetCart: () => { },
     items: [],
-    addItem: (item) => { },
-    totalItems: 0
 });
 
-export const useCart = () => useContext(CartContext);
-
 export const CartProvider = ({ children }) => {
-    const [items, setItems] = useState([]);
+    const [items, dispatch] = useReducer(CartReducer, []);
 
-    const addItem = (item) => {
-        setItems((prevItems) => {
-            const existingItemIndex = prevItems.findIndex(
-                (cartItem) => cartItem.id === item.id
-            );
-
-            if (existingItemIndex !== -1) {
-
-                const updatedItems = [...prevItems];
-                const existingItem = updatedItems[existingItemIndex];
-
-
-                updatedItems[existingItemIndex] = {
-                    ...existingItem,
-                    quantity: existingItem.quantity + 1,
-                };
-
-                return updatedItems;
-            } else {
-                return [...prevItems, { ...item, quantity: 1 }];
-            }
-        });
+    const addItem = (meal) => {
+        dispatch({ type: "ADD_ITEM", item: meal });
     };
 
-
-    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+    const resetCart = () => {
+        dispatch({ type: "RESET_CART" });
+    };
 
     return (
-        <CartContext.Provider
-            value={{ items, addItem, totalItems }}
-        >
+        <CartContext.Provider value={{ addItem, resetCart, items }}>
             {children}
         </CartContext.Provider>
     );
 };
+
+export default CartContext;

@@ -1,8 +1,9 @@
 import Button from "./UI/Button"
-import { useCart } from "../store/CartContext";
+import { useContext } from "react";
+import CartContext from "../store/CartContext";
 
 const MealItem = (props) => {
-    const { addItem } = useCart();
+    const { addItem } = useContext(CartContext);
 
     const addToCartHandler = () => {
         addItem(props.meal);
