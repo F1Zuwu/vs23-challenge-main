@@ -1,4 +1,4 @@
-const fs = require("fs/promises");
+const fs = require("fs");
 const bodyParser = require("body-parser")
 const path = require("path");
 const express = require("express");
@@ -17,8 +17,9 @@ app.use((req, res, next) => {
 });
 
 app.get("/meals", async (req, res) => {
-  const meals = "[]" // data should be read from file
-  res.json(JSON.parse(meals));
+  fs.readFile("./data/meals.json", "utf-8", (err, data) => {
+    res.json(JSON.parse(data));
+  })
 });
 
 app.use((req, res) => {
