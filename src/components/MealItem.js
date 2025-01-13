@@ -1,4 +1,13 @@
+import Button from "./UI/Button"
+import { useCart } from "../store/CartContext";
+
 const MealItem = (props) => {
+    const { addItem } = useCart();
+
+    const addToCartHandler = () => {
+        addItem(props.meal.name);
+        console.log("add to cart")
+    };
     const format = (num) => {
         return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
             num,
@@ -14,7 +23,7 @@ const MealItem = (props) => {
                     <p class="meal-item-description">{props.meal.description}</p>
                 </div>
                 <p class="meal-item-actions">
-                    <button >Add to Cart</button>
+                    <Button onClick={addToCartHandler} textOnly={false}>Add to Cart</Button>
                 </p>
             </article>
         </li>
